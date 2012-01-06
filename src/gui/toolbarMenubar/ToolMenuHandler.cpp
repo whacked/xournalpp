@@ -407,6 +407,11 @@ void ToolMenuHandler::initToolItems() {
 
 	addToolItem(new ToolButton(listener, gui, "HILIGHTER", ACTION_TOOL_HILIGHTER, GROUP_TOOL, true,
 			"tool_highlighter.png", _("Hilighter"), gui->get("menuToolsHighlighter")));
+
+
+	addToolItem(new ToolButton(listener, gui, "SELECTTEXT", ACTION_TOOL_SELECTTEXT, GROUP_TOOL, true,
+				"tool_selecttext.png", _("Select Text"), gui->get("menuToolsSelectText")));
+
 	addToolItem(new ToolButton(listener, gui, "TEXT", ACTION_TOOL_TEXT, GROUP_TOOL, true, "tool_text.png", _("Text"),
 			gui->get("menuToolsText")));
 	addToolItem(new ToolButton(listener, gui, "IMAGE", ACTION_TOOL_IMAGE, GROUP_TOOL, true, "tool_image.png",
