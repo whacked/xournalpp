@@ -185,6 +185,7 @@ bool TextRectSelection::finalize(PageRef page) {
 	Layer * l = page.getSelectedLayer();
 	ListIterator<Element *> eit = l->elementIterator();
 	while (eit.hasNext()) {
+		break;
 		Element * e = eit.next();
 		if (e->isInSelection(this)) {
 			this->selectedElements = g_list_append(this->selectedElements, e);
@@ -230,9 +231,9 @@ void TextRectSelection::currentPos(double x, double y) {
 
 void TextRectSelection::paint(cairo_t * cr, GdkRectangle * rect, double zoom) {
 	XOJ_CHECK_TYPE(TextRectSelection);
-	printf("MYDEBUG: paint!\n");
 
 	GdkColor selectionColor = view->getSelectionColor();
+	selectionColor.red = 0;
 
 	// set the line always the same size on display
 	cairo_set_line_width(cr, 1 / zoom);
