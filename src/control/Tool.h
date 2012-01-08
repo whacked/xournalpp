@@ -15,7 +15,7 @@
 #include <String.h>
 #include <XournalType.h>
 
-#define TOOL_COUNT 10
+#define TOOL_COUNT 11
 
 // Has to be in the same order as in Action.h: ActionType!
 enum ToolType {
