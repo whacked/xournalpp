@@ -58,7 +58,13 @@ void ToolHandler::initTools() {
 	t = new Tool("hilighter", TOOL_HILIGHTER, 0xFFFF00, true, true, true, true, thickness);
 	tools[TOOL_HILIGHTER - TOOL_PEN] = t;
 
-	t = new Tool("selectText", TOOL_SELECTTEXT, 0x000000, false, false, false, false, NULL);
+	thickness = new double[5];
+	thickness[TOOL_SIZE_VERY_FINE] = 2.83;
+	thickness[TOOL_SIZE_FINE] = 2.83;
+	thickness[TOOL_SIZE_MEDIUM] = 8.50;
+	thickness[TOOL_SIZE_THICK] = 19.84;
+	thickness[TOOL_SIZE_VERY_THICK] = 19.84;
+	t = new Tool("selectText", TOOL_SELECTTEXT, 0x000000, true, true, false, false, thickness);
 	tools[TOOL_SELECTTEXT - TOOL_PEN] = t;
 
 	t = new Tool("text", TOOL_TEXT, 0x000000, true, false, false, false, NULL);
