@@ -153,6 +153,110 @@ void RectSelection::paint(cairo_t * cr, GdkRectangle * rect, double zoom) {
 
 //////////////////////////////////////////////////////////
 
+TextRectSelection::TextRectSelection(double x, double y, Redrawable * view) :
+	Selection(view) {
+	XOJ_INIT_TYPE(TextRectSelection);
+
+	this->sx = x;
+	this->sy = y;
+	this->ex = x;
+	this->ey = y;
+	this->x1 = 0;
+	this->x2 = 0;
+	this->y1 = 0;
+	this->y2 = 0;
+}
+
+TextRectSelection::~TextRectSelection() {
+	XOJ_RELEASE_TYPE(TextRectSelection);
+}
+
+bool TextRectSelection::finalize(PageRef page) {
+	XOJ_CHECK_TYPE(TextRectSelection);
+
+	this->x1 = MIN(this->sx, this->ex);
+	this->x2 = MAX(this->sx, this->ex);
+
+	this->y1 = MIN(this->sy, this->ey);
+	this->y2 = MAX(this->sy, this->ey);
+
+	this->page = page;
+
+	Layer * l = page.getSelectedLayer();
+	ListIterator<Element *> eit = l->elementIterator();
+	while (eit.hasNext()) {
+		Element * e = eit.next();
+		if (e->isInSelection(this)) {
+			this->selectedElements = g_list_append(this->selectedElements, e);
+		}
+	}
+
+	return this->selectedElements != NULL;
+}
+
+bool TextRectSelection::contains(double x, double y) {
+	XOJ_CHECK_TYPE(TextRectSelection);
+
+	if (x < this->x1 || x > this->x2) {
+		return false;
+	}
+	if (y < this->y1 || y > this->y2) {
+		return false;
+	}
+
+	return true;
+}
+
+void TextRectSelection::currentPos(double x, double y) {
+	XOJ_CHECK_TYPE(TextRectSelection);
+
+	int aX = MIN(x, this->ex);
+	aX = MIN(aX, this->sx) - 10;
+
+	int bX = MAX(x, this->ex);
+	bX = MAX(bX , this->sx) + 10;
+
+	int aY = MIN(y, this->ey);
+	aY = MIN(aY, this->sy) - 10;
+
+	int bY = MAX(y, this->ey);
+	bY = MAX(bY, this->sy) + 10;
+
+	view->repaintArea(aX, aY, bX, bY);
+
+	this->ex = x;
+	this->ey = y;
+}
+
+void TextRectSelection::paint(cairo_t * cr, GdkRectangle * rect, double zoom) {
+	XOJ_CHECK_TYPE(TextRectSelection);
+	printf("MYDEBUG: paint!\n");
+
+	GdkColor selectionColor = view->getSelectionColor();
+
+	// set the line always the same size on display
+	cairo_set_line_width(cr, 1 / zoom);
+	gdk_cairo_set_source_color(cr, &selectionColor);
+
+
+	int aX = MIN(this->sx, this->ex);
+	int bX = MAX(this->sx, this->ex);
+
+	int aY = MIN(this->sy, this->ey);
+	int bY = MAX(this->sy, this->ey);
+
+	cairo_move_to(cr, aX, aY);
+	cairo_line_to(cr, bX, aY);
+	cairo_line_to(cr, bX, bY);
+	cairo_line_to(cr, aX, bY);
+	cairo_close_path(cr);
+
+	cairo_stroke_preserve(cr);
+	cairo_set_source_rgba(cr, selectionColor.red / 65536.0, selectionColor.green / 65536.0, selectionColor.blue / 65536.0, 0.3);
+	cairo_fill(cr);
+}
+
+//////////////////////////////////////////////////////////
 
 class RegionPoint {
 public:

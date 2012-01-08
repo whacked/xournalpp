@@ -356,7 +356,7 @@ bool PageView::onButtonPressEvent(GtkWidget * widget, GdkEventButton * event) {
 				this->selection = NULL;
 				repaintPage();
 			}
-			this->selection = new RectSelection(x, y, this);
+			this->selection = new TextRectSelection(x, y, this);
 		} else if (h->getToolType() == TOOL_SELECT_RECT) {
 			if (this->selection) {
 				delete this->selection;

@@ -74,6 +74,34 @@ private:
 	double y2;
 };
 
+class TextRectSelection: public Selection {
+public:
+	TextRectSelection(double x, double y, Redrawable * view);
+	virtual ~TextRectSelection();
+
+public:
+	virtual bool finalize(PageRef page);
+	virtual void paint(cairo_t * cr, GdkRectangle * rect, double zoom);
+	virtual void currentPos(double x, double y);
+	virtual bool contains(double x, double y);
+
+private:
+	XOJ_TYPE_ATTRIB;
+
+	double sx;
+	double sy;
+	double ex;
+	double ey;
+
+	/**
+	 * In zoom coordinates
+	 */
+	double x1;
+	double x2;
+	double y1;
+	double y2;
+};
+
 class RegionSelect: public Selection {
 public:
 	RegionSelect(double x, double y, Redrawable * view);
