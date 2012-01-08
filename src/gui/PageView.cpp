@@ -286,6 +286,14 @@ void PageView::selectObjectAt(double x, double y) {
 	}
 }
 
+/**
+ *
+ *
+ * this function is called whenever [...]
+ *
+ * in the massive if-else chain below the current active tool is checked
+ * in the case of SELECTTEXT, it now copies the vanilla SelectRect action
+ */
 bool PageView::onButtonPressEvent(GtkWidget * widget, GdkEventButton * event) {
 	XOJ_CHECK_TYPE(PageView);
 
@@ -341,8 +349,15 @@ bool PageView::onButtonPressEvent(GtkWidget * widget, GdkEventButton * event) {
 		}
 	} else if (h->getToolType() == TOOL_VERTICAL_SPACE) {
 		this->verticalSpace = new VerticalToolHandler(this, this->page, y, zoom);
-	} else if (h->getToolType() == TOOL_SELECT_RECT || h->getToolType() == TOOL_SELECT_REGION || h->getToolType() == TOOL_SELECT_OBJECT) {
-		if (h->getToolType() == TOOL_SELECT_RECT) {
+	} else if (h->getToolType() == TOOL_SELECTTEXT || h->getToolType() == TOOL_SELECT_RECT || h->getToolType() == TOOL_SELECT_REGION || h->getToolType() == TOOL_SELECT_OBJECT) {
+		if (h->getToolType() == TOOL_SELECTTEXT) {
+			if (this->selection) {
+				delete this->selection;
+				this->selection = NULL;
+				repaintPage();
+			}
+			this->selection = new RectSelection(x, y, this);
+		} else if (h->getToolType() == TOOL_SELECT_RECT) {
 			if (this->selection) {
 				delete this->selection;
 				this->selection = NULL;

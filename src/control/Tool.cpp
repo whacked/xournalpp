@@ -120,6 +120,8 @@ String toolTypeToString(ToolType type) {
 		return "text";
 	case TOOL_IMAGE:
 		return "image";
+	case TOOL_SELECTTEXT:
+		return "selectText";
 	case TOOL_SELECT_RECT:
 		return "selectRect";
 	case TOOL_SELECT_REGION:
@@ -145,6 +147,8 @@ ToolType toolTypeFromString(String type) {
 		return TOOL_HILIGHTER;
 	} else if (type == "image") {
 		return TOOL_IMAGE;
+	} else if (type == "selectText") {
+		return TOOL_SELECTTEXT;
 	} else if (type == "selectRect") {
 		return TOOL_SELECT_RECT;
 	} else if (type == "selectRegion") {

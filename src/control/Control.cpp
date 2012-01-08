@@ -552,6 +552,11 @@ void Control::actionPerformed(ActionType type, ActionGroup group, GdkEvent *even
 			selectTool(TOOL_IMAGE);
 		}
 		break;
+	case ACTION_TOOL_SELECTTEXT:
+		if (enabled) {
+			selectTool(TOOL_SELECTTEXT);
+		}
+		break;
 	case ACTION_TOOL_SELECT_RECT:
 		if (enabled) {
 			selectTool(TOOL_SELECT_RECT);
