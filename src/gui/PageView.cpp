@@ -357,6 +357,7 @@ bool PageView::onButtonPressEvent(GtkWidget * widget, GdkEventButton * event) {
 				repaintPage();
 			}
 			this->selection = new TextRectSelection(x, y, this);
+			this->inputHandler->startStroke(event, STROKE_TOOL_HIGHLIGHTER, x, y);
 		} else if (h->getToolType() == TOOL_SELECT_RECT) {
 			if (this->selection) {
 				delete this->selection;
@@ -401,6 +402,11 @@ bool PageView::onMotionNotifyEvent(GtkWidget * widget, GdkEventMotion * event) {
 
 	if (this->inputHandler->onMotionNotifyEvent(event)) {
 		//input	handler used this event
+
+		// MYDEBUG: probably expect SELECTTEXT to also draw something
+		if(this->selection) {
+			this->selection->currentPos(x, y);
+		}
 	} else if (this->selection) {
 		this->selection->currentPos(x, y);
 	} else if (this->verticalSpace) {

@@ -169,6 +169,23 @@ void InputHandler::onButtonReleaseEvent(GdkEventButton * event, PageRef page) {
 		return;
 	}
 
+	ToolHandler * h = xournal->getControl()->getToolHandler();
+
+	// MYDEBUG: SELECTTEXT draws a rect, C&P from addPointToTmpStroke above
+	if(h->getToolType() == TOOL_SELECTTEXT) {
+		double zoom = xournal->getZoom();
+		double x = event->x / zoom;
+		double y = event->y / zoom;
+		// x, y contain end corner of rect
+		// first point in tmpStroke contains begin corner of rect
+		ArrayIterator<Point> it = this->tmpStroke->pointIterator();
+		Point begPt = it.next();
+		this->tmpStroke->addPoint(Point(x, begPt.y));
+		this->tmpStroke->addPoint(Point(x, y));
+		this->tmpStroke->addPoint(Point(begPt.x, y));
+		this->tmpStroke->addPoint(Point(begPt.x, begPt.y));
+	}
+
 	// Backward compatibility and also easier to handle for me;-)
 	// I cannot draw a line with one point, to draw a visible line I need two points,
 	// twice the same Point is also OK
@@ -196,7 +213,6 @@ void InputHandler::onButtonReleaseEvent(GdkEventButton * event, PageRef page) {
 
 	undo->addUndoAction(new InsertUndoAction(page, layer, this->tmpStroke, this->redrawable));
 
-	ToolHandler * h = xournal->getControl()->getToolHandler();
 	if (h->isShapeRecognizer()) {
 		if (this->reco == NULL) {
 			this->reco = new ShapeRecognizer();
@@ -262,6 +278,12 @@ bool InputHandler::onMotionNotifyEvent(GdkEventMotion * event) {
 //		INPUTDBG("this->currentInputDevice == null\n", 0);
 //		return false;
 //	}
+
+    // MYDEBUG: don't make SELECTTEXT draw anything
+	ToolHandler * h = xournal->getControl()->getToolHandler();
+	if(h->getToolType() == TOOL_SELECTTEXT) {
+		return false;
+	}
 
 //	if (this->currentInputDevice == event->device || this->currentInputDevice == NULL) {
 		if (this->tmpStroke != NULL) {
