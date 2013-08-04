@@ -40,6 +40,7 @@ xournalpp_SOURCES = \
 	control/xml/IntAttribute.cpp \
 	control/xml/TextAttribute.cpp \
 	control/xml/XmlImageNode.cpp \
+	control/xml/XmlTexNode.cpp \
 	control/xml/XmlNode.cpp \
 	control/xml/XmlPointNode.cpp \
 	control/xml/XmlStrokeNode.cpp \
@@ -74,6 +75,7 @@ xournalpp_SOURCES = \
 	gui/dialog/PdfPagesDialog.cpp \
 	gui/dialog/SelectBackgroundColorDialog.cpp \
 	gui/dialog/SettingsDialog.cpp \
+	gui/dialog/LatexGlade.cpp \
 	gui/pageposition/PagePosition.cpp \
 	gui/pageposition/PagePositionCache.cpp \
 	gui/pageposition/PagePositionHandler.cpp \
@@ -136,6 +138,7 @@ xournalpp_SOURCES = \
 	model/PageRef.cpp \
 	model/Point.cpp \
 	model/Stroke.cpp \
+	model/TexImage.cpp \
 	model/Text.cpp \
 	model/XojPage.cpp \
 	pdf/cairo/CairoPdf.cpp \
@@ -167,6 +170,7 @@ xournalpp_SOURCES = \
 	undo/ScaleUndoAction.cpp \
 	undo/SizeUndoAction.cpp \
 	undo/TextUndoAction.cpp \
+	undo/TextBoxUndoAction.cpp \
 	undo/UndoAction.cpp \
 	undo/UndoRedoHandler.cpp \
 	view/DocumentView.cpp \

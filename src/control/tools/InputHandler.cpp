@@ -70,7 +70,11 @@ void InputHandler::addPointToTmpStroke(GdkEventMotion * event) {
 		}
 		Point p = tmpStroke->getPoint(0);
 
+		//Draw the initial stroke or else rerender it
+		//The rerenderelement is bugged up on Debian Squeeze
+		//Until this is fixed just repaint.
 		this->redrawable->rerenderElement(this->tmpStroke);
+		this->redrawable->repaintElement(this->tmpStroke);
 		return;
 	}
 
